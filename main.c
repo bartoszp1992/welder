@@ -5,6 +5,7 @@
  *      Author: bartosz
  *
  *      welder software v0.1 alpha
+ *      -changed times
  */
 
 #include <avr/io.h>
@@ -63,7 +64,7 @@ int main(void){
 	PORTD &= ~(1<<PD0);
 
 	//zmienne
-	int times[30] = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150,160, 170, 190, 200, 210, 220, 230, 240, 250, 260, 270, 280, 290};
+	int times[30] = {0, 2, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 120, 140, 180,200, 300, 400, 500, 600, 800, 1000, 1200, 1500, 1800, 2000, 2200, 2500};
 	int set = 1;
 	int time;
 
@@ -110,11 +111,11 @@ int main(void){
 			_delay_ms_var(times[set]);
 
 			PORTD &= ~(1<<PD0);//opto
-			_delay_ms(100);
-			PORTD &= ~(PD2);//buzzer
+			_delay_ms(50);
+			PORTD &= ~(1<<PD2);//buzzer
 			_delay_ms(300);
-			PORTD &= ~(PD1);//LED
-			_delay_ms(500);
+			PORTD &= ~(1<<PD1);//LED
+			_delay_ms(800);
 
 		}
 
