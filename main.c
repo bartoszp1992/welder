@@ -10,6 +10,9 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
+#include <avr/eeprom.h>
+
+EEMEM unsigned char s; //for set
 
 volatile int f;
  void mydelay(uint16_t delay) {
@@ -19,7 +22,7 @@ volatile int f;
  }
 
 
- _delay_ms_var(uint16_t a)
+ void _delay_ms_var(uint16_t a)
  {
    while(a--)
    {
@@ -65,7 +68,14 @@ int main(void){
 
 	//zmienne
 	int times[30] = {0, 2, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 120, 140, 180,200, 300, 400, 500, 600, 800, 1000, 1200, 1500, 1800, 2000, 2200, 2500};
-	int set = 1;
+	int set = eeprom_read_byte(&s);
+	if ( (set<1) || (set > 29)){
+		set = 1;
+		PORTD |= (1<<PD2);//buzzer
+		_delay_ms(200);
+		PORTD &= ~(1<<PD2);//buzzer
+	}
+
 	int time;
 
 	PORTD |= (1<<PD1);
@@ -122,12 +132,16 @@ int main(void){
 
 		if(!(PINB & (1<<PB1)) && set < 28){
 			set++;
+			eeprom_write_byte(&s, set);
+			_delay_ms(20);
 			_delay_ms(200);
 
 		}
 
 		if(!(PINB & (1<<PB2)) && set > 1){
 			set--;
+			eeprom_write_byte(&s, set);
+			_delay_ms(20);
 			_delay_ms(200);
 		}
 
