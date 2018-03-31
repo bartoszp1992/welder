@@ -125,7 +125,8 @@ int main(void){
 			PORTD &= ~(1<<PD2);//buzzer
 			_delay_ms(300);
 			PORTD &= ~(1<<PD1);//LED
-			_delay_ms(800);
+			_delay_ms(1500);
+			while(!(PINB & (1<<PB0)));
 
 		}
 
